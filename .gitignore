@@ -161,3 +161,5 @@ Build/
 Builds/
 Logs/
 UserSettings/Temp/
+
+.DS_Store
