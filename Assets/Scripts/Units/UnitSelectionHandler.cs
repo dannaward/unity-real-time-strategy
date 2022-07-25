@@ -22,11 +22,15 @@ public class UnitSelectionHandler : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
     }
 
     private void Update()
     {
+        if (player == null)
+        {
+            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        }
+        
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             StartSelectionArea();
@@ -70,19 +74,43 @@ public class UnitSelectionHandler : MonoBehaviour
     
     private void ClearSelectionArea()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        unitSelectionArea.gameObject.SetActive(false);
 
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask)) { return; };
-        
-        if (!hit.collider.TryGetComponent<Unit>(out Unit unit)) { return; }
-
-        if (!unit.hasAuthority) { return; }
-
-        SelectedUnits.Add(unit);
-
-        foreach (Unit selectedUnit in SelectedUnits)
+        if (unitSelectionArea.sizeDelta.magnitude == 0)
         {
-            selectedUnit.Select();
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+            if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask)) { return; };
+            
+            if (!hit.collider.TryGetComponent<Unit>(out Unit unit)) { return; }
+
+            if (!unit.hasAuthority) { return; }
+
+            SelectedUnits.Add(unit);
+
+            foreach (Unit selectedUnit in SelectedUnits)
+            {
+                selectedUnit.Select();
+            }
+
+            return;
+        }
+
+        Vector2 min = unitSelectionArea.anchoredPosition - (unitSelectionArea.sizeDelta / 2);
+        Vector2 max = unitSelectionArea.anchoredPosition + (unitSelectionArea.sizeDelta / 2);
+
+        foreach (Unit unit in player.GetMyUnits())
+        {
+            Vector3 screenPosition = mainCamera.WorldToScreenPoint(unit.transform.position);
+
+            if (screenPosition.x > min.x && 
+                screenPosition.x < max.x && 
+                screenPosition.y > min.y &&
+                screenPosition.y < max.y)
+            {
+                SelectedUnits.Add(unit);
+                unit.Select();
+            }
         }
     }
 }
