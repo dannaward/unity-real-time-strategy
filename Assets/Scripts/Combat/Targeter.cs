@@ -5,16 +5,19 @@ using UnityEngine;
 
 public class Targeter : NetworkBehaviour
 {
-    [SerializeField] private Targetable target;
+    private Targetable target;
 
-    #region Server
-    
+    public Targetable GetTarget()
+    {
+        return target;
+    }
+
     [Command]
     public void CmdSetTarget(GameObject targetGameObject)
     {
         if (!targetGameObject.TryGetComponent<Targetable>(out Targetable newTarget)) { return; }
-        
-        this.target = newTarget;
+
+        target = newTarget;
     }
 
     [Server]
@@ -22,13 +25,5 @@ public class Targeter : NetworkBehaviour
     {
         target = null;
     }
-    
-    #endregion
 
-    #region Client
-
-    
-    
-
-    #endregion
 }
