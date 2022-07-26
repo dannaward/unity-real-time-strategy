@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class Unit : NetworkBehaviour
 {
     [SerializeField] private UnitMovement unitMovement = null;
+    [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeSelected = null;
 
@@ -22,23 +23,10 @@ public class Unit : NetworkBehaviour
         return unitMovement;
     }
 
-    #region Client
-
-    public override void OnStartClient()
+    public Targeter GetTargeter()
     {
-        if (!isClientOnly || !hasAuthority) { return; }
-        
-        AuthorityOnUnitSpawned.Invoke(this);
+        return targeter;
     }
-    
-    public override void OnStopClient()
-    {
-        if (!isClientOnly || !hasAuthority) { return; }
-        
-        AuthorityOnUnitDespawned.Invoke(this);
-    }
-
-    #endregion
 
     #region Server
 
@@ -68,6 +56,20 @@ public class Unit : NetworkBehaviour
     {
         if (!hasAuthority) { return; }
         onDeSelected?.Invoke();
+    }
+    
+    public override void OnStartClient()
+    {
+        if (!isClientOnly || !hasAuthority) { return; }
+        
+        AuthorityOnUnitSpawned.Invoke(this);
+    }
+    
+    public override void OnStopClient()
+    {
+        if (!isClientOnly || !hasAuthority) { return; }
+        
+        AuthorityOnUnitDespawned.Invoke(this);
     }
     
     #endregion
