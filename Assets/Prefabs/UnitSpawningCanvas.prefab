@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 779266566058601628}
   - component: {fileID: 1251933040568640088}
+  - component: {fileID: 3247884025826718731}
   m_Layer: 0
   m_Name: UnitSpawningCanvas
   m_TagString: Untagged
@@ -60,6 +61,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &3247884025826718731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216798578416940514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45333d823b8c04a6da50107f957072af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3433113424974754672
 GameObject:
   m_ObjectHideFlags: 0
