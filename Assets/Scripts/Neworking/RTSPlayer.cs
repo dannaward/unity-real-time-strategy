@@ -15,9 +15,15 @@ public class RTSPlayer : NetworkBehaviour
 
     public event Action<int> ClientOnResourcesUpdated;
 
+    private Color teamColor = new Color();
     private List<Unit> myUnits = new List<Unit>();
     private List<Building> myBuildings = new List<Building>();
     
+    public Color GetTeamColor()
+    {
+        return teamColor;
+    }
+
     public int GetResources()
     {
         return resources;
@@ -32,13 +38,7 @@ public class RTSPlayer : NetworkBehaviour
     {
         return myBuildings;
     }
-    
-    [Server]
-    public void SetResources(int newResources)
-    {
-        resources = newResources;
-    }
-    
+
     public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 point)
     {
         // check if we can place a new object at point
@@ -81,6 +81,18 @@ public class RTSPlayer : NetworkBehaviour
         Building.ServerOnBuildingDespawned -= ServerHandleBuildingDespawned;
     }
     
+    [Server]
+    public void SetTeamColor(Color newTeamColor)
+    {
+        teamColor = newTeamColor;
+    }
+
+    [Server]
+    public void SetResources(int newResources)
+    {
+        resources = newResources;
+    }
+
     [Command]
     public void CmdTryPlaceBuilding(int buildingId, Vector3 point)
     {
