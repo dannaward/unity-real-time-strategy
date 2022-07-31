@@ -2964,6 +2964,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyUI: {fileID: 1585114140}
   startGameButton: {fileID: 848633786}
+  playerNameTexts:
+  - {fileID: 770603682}
+  - {fileID: 1524089421}
+  - {fileID: 1627738185}
+  - {fileID: 1069413142}
 --- !u!1 &1524089419
 GameObject:
   m_ObjectHideFlags: 0
